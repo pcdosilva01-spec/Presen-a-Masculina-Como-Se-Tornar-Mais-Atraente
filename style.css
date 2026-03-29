@@ -32,6 +32,11 @@ body {
     color: var(--text-main);
     line-height: 1.6;
     overflow-x: hidden;
+    /* Proteção contra cópia */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /* Typography Utilities */
@@ -942,4 +947,50 @@ h1, h2, h3, h4, h5, h6 {
     .sticky-cta {
         display: none !important;
     }
+}
+
+/* Timeout Popup */
+.timeout-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    backdrop-filter: blur(5px);
+}
+.timeout-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+.timeout-box {
+    background: var(--bg-card);
+    border: 1px solid var(--gold);
+    padding: 3rem 2rem;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    transform: translateY(30px);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 20px rgba(216, 43, 51, 0.2);
+}
+.timeout-overlay.show .timeout-box {
+    transform: translateY(0);
+}
+.timeout-box h2 {
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+.timeout-box p {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
 }
