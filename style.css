@@ -64,7 +64,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .section {
-    padding: 5rem 0;
+    padding: 3rem 0;
 }
 
 .dark-section {
@@ -718,6 +718,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Media Queries */
 @media (min-width: 768px) {
+    .section {
+        padding: 5rem 0;
+    }
     .hero-container {
         grid-template-columns: 1fr 1fr;
         align-items: center;
@@ -833,9 +836,110 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 768px) {
     .sales-notification {
-        bottom: 15px;
+        top: 60px;
+        bottom: auto;
         left: 15px;
         right: 15px;
         max-width: calc(100% - 30px);
+    }
+}
+
+/* CRO & Urgency Elements */
+.top-alert {
+    background-color: var(--gold);
+    color: #fff;
+    text-align: center;
+    padding: 0.5rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+.top-alert i { height: 16px; width: 16px; }
+
+.urgency-timer {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 1rem auto;
+    padding: 0.5rem 1rem;
+    border: 1px dashed rgba(216, 43, 51, 0.5);
+    border-radius: 8px;
+    background: rgba(216, 43, 51, 0.05);
+    display: inline-block;
+}
+
+.scarcity-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.8rem;
+}
+
+/* Sticky Mobile CTA */
+.sticky-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--bg-card);
+    border-top: 1px solid rgba(216, 43, 51, 0.3);
+    padding: 1rem 1.5rem;
+    z-index: 9998;
+    transform: translateY(150%);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+}
+
+.sticky-cta.show {
+    transform: translateY(0);
+}
+
+.sticky-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 500px;
+    gap: 1rem;
+}
+
+.sticky-price {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.st-from {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-decoration: line-through;
+}
+
+.st-to {
+    font-size: 1.1rem;
+    color: var(--text-main);
+}
+
+.st-to strong {
+    color: var(--gold);
+    font-size: 1.3rem;
+}
+
+.btn-sm {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.95rem;
+}
+
+/* Esconder barra sticky em telas grandes */
+@media (min-width: 768px) {
+    .sticky-cta {
+        display: none !important;
     }
 }

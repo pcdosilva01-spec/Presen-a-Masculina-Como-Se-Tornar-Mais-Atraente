@@ -15,6 +15,11 @@
 </head>
 <body>
 
+    <!-- TOP ALERT BAR -->
+    <div class="top-alert">
+        <i data-feather="clock"></i> Atenção: Acesso VIP com desconto encerra em <span class="timer">15:00</span>
+    </div>
+
     <!-- HERO SECTION -->
     <header class="section hero" id="hero">
         <div class="container hero-container">
@@ -230,12 +235,14 @@
                         <span class="value">27</span>
                         <span class="cents">,90</span>
                     </div>
+                    <div class="urgency-timer pulse-animation">Oferta Exclusiva Expira Em: <span class="timer text-gold">15:00</span></div>
                     <p class="payment-info">Investimento único para acessar um método completo</p>
                     <ul class="offer-includes">
                         <li><i data-feather="check"></i> Livro "Presença Masculina"</li>
                         <li><i data-feather="check"></i> Acesso imediato pelo celular/PC</li>
                     </ul>
                     <a href="https://pay.kiwify.com.br/0fAuXyh" class="btn btn-primary btn-block pulse-animation">COMPRAR AGORA</a>
+                    <div class="scarcity-text">🔥 Restam apenas <span class="text-gold" style="font-weight:bold;">7 vagas</span> com este desconto</div>
                     <div class="safe-checkout">
                         <i data-feather="shield"></i> Ambiente Seguro e Criptografado
                     </div>
@@ -285,6 +292,17 @@
         <div class="notification-content">
             <p class="notification-name"><span id="buyer-name">Neymar</span> comprou a <span id="purchase-time">14</span> min</p>
             <p class="notification-product">Livro Presença Masculina</p>
+        </div>
+    </div>
+
+    <!-- Sticky Mobile CTA -->
+    <div class="sticky-cta" id="sticky-cta">
+        <div class="sticky-content">
+            <div class="sticky-price">
+                <span class="st-from">De R$ 97 por</span>
+                <span class="st-to">R$ 27,90</span>
+            </div>
+            <a href="https://pay.kiwify.com.br/0fAuXyh" class="btn btn-primary btn-sm pulse-animation">GARANTIR ACESSO</a>
         </div>
     </div>
 
@@ -343,6 +361,37 @@
                 showNotification();
             }, 20000);
         }, 3000);
+
+        // Timer Logic
+        let timeLeft = 15 * 60; // 15 minutes
+        const timerElements = document.querySelectorAll('.timer');
+        
+        setInterval(() => {
+            if (timeLeft <= 0) return;
+            timeLeft--;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            const displayTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            timerElements.forEach(el => {
+                el.textContent = displayTime;
+            });
+        }, 1000);
+
+        // Sticky CTA Logic
+        const stickyCta = document.getElementById('sticky-cta');
+        const heroBtn = document.querySelector('.hero .btn-primary');
+        
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth > 0) { // Will restrict visual mostly in CSS media queries, but event triggers universally
+                const heroBottom = heroBtn.getBoundingClientRect().bottom + window.scrollY;
+                if (window.scrollY > heroBottom) {
+                    stickyCta.classList.add('show');
+                } else {
+                    stickyCta.classList.remove('show');
+                }
+            }
+        });
     </script>
 </body>
 </html>
