@@ -1,4 +1,4 @@
-// Timer sincronizado (top bar + urgency bar)
+// Timer
 (function () {
   const key = 'pm_timer_end';
   let end = parseInt(localStorage.getItem(key));
@@ -6,23 +6,16 @@
     end = Date.now() + 15 * 60 * 1000;
     localStorage.setItem(key, end);
   }
-
-  const els = [document.getElementById('timer'), document.getElementById('timer2')];
-
-  function update() {
+  const el = document.getElementById('timer');
+  setInterval(() => {
     const diff = Math.max(0, end - Date.now());
     const m = String(Math.floor(diff / 60000)).padStart(2, '0');
     const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
-    const text = `${m}:${s}`;
-    els.forEach(el => { if (el) el.textContent = text; });
-    if (diff === 0) localStorage.removeItem(key);
-  }
-
-  update();
-  setInterval(update, 1000);
+    if (el) el.textContent = m + ':' + s;
+  }, 1000);
 })();
 
-// FAQ Accordion
+// FAQ
 document.querySelectorAll('.faq-q').forEach(btn => {
   btn.addEventListener('click', () => {
     const answer = btn.nextElementSibling;
@@ -38,21 +31,22 @@ document.querySelectorAll('.faq-q').forEach(btn => {
   });
 });
 
-// Notificações de compra
+// Notificações falsas de venda
 (function () {
   const nomes = [
     'Carlos S.', 'Matheus R.', 'Felipe A.', 'Bruno L.', 'Gabriel M.',
     'Rodrigo T.', 'Anderson P.', 'Thiago N.', 'Leonardo C.', 'Eduardo V.',
     'Rafael B.', 'Gustavo F.', 'Diego H.', 'Vinicius O.', 'Lucas K.',
-    'Henrique M.', 'Pedro A.', 'João V.', 'Alexandre S.', 'Caio R.'
+    'Henrique M.', 'Pedro A.', 'João V.', 'Alexandre S.', 'Caio R.',
+    'Marcelo T.', 'Renato B.', 'Fábio C.', 'Leandro S.', 'Igor M.'
   ];
 
   const locais = [
     'São Paulo, SP', 'Rio de Janeiro, RJ', 'Belo Horizonte, MG', 'Curitiba, PR',
     'Salvador, BA', 'Fortaleza, CE', 'Manaus, AM', 'Recife, PE', 'Porto Alegre, RS',
-    'Goiânia, GO', 'Belém, PA', 'Florianópolis, SC', 'Vitória, ES', 'Natal, RN',
-    'Campo Grande, MS', 'Maceió, AL', 'João Pessoa, PB', 'Teresina, PI',
-    'Campinas, SP', 'Santos, SP', 'Ribeirão Preto, SP', 'Uberlândia, MG'
+    'Goiânia, GO', 'Florianópolis, SC', 'Vitória, ES', 'Natal, RN', 'Campinas, SP',
+    'Maceió, AL', 'João Pessoa, PB', 'Ribeirão Preto, SP', 'Uberlândia, MG',
+    'Santos, SP', 'São Luís, MA', 'Teresina, PI', 'Campo Grande, MS'
   ];
 
   const toast = document.getElementById('toast');
@@ -62,17 +56,19 @@ document.querySelectorAll('.faq-q').forEach(btn => {
   function showToast() {
     const nome = nomes[Math.floor(Math.random() * nomes.length)];
     const local = locais[Math.floor(Math.random() * locais.length)];
-    const mins = Math.floor(Math.random() * 9) + 1;
+    const mins = Math.floor(Math.random() * 8) + 1;
 
-    toastName.textContent = `${nome} acabou de comprar!`;
-    toastLocation.textContent = `${local} · há ${mins} min`;
+    toastName.textContent = nome + ' acabou de comprar!';
+    toastLocation.textContent = local + ' · há ' + mins + ' min';
 
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 4000);
   }
 
+  // Primeira notificação após 4s, depois a cada 20-35s
   setTimeout(function loop() {
     showToast();
-    setTimeout(loop, 30000);
-  }, 5000);
+    const next = 20000 + Math.random() * 15000;
+    setTimeout(loop, next);
+  }, 4000);
 })();
