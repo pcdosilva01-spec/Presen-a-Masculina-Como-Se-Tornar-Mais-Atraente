@@ -3,7 +3,7 @@
   const key = 'pm_timer_end';
   let end = localStorage.getItem(key);
   if (!end) {
-    end = Date.now() + 10 * 60 * 1000;
+    end = Date.now() + 15 * 60 * 1000;
     localStorage.setItem(key, end);
   }
 
