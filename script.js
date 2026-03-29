@@ -1,19 +1,20 @@
-// Countdown Timer
+// Timer sincronizado (top bar + urgency bar)
 (function () {
   const key = 'pm_timer_end';
-  let end = localStorage.getItem(key);
-  if (!end) {
+  let end = parseInt(localStorage.getItem(key));
+  if (!end || end < Date.now()) {
     end = Date.now() + 15 * 60 * 1000;
     localStorage.setItem(key, end);
   }
 
-  const el = document.getElementById('timer');
+  const els = [document.getElementById('timer'), document.getElementById('timer2')];
 
   function update() {
     const diff = Math.max(0, end - Date.now());
     const m = String(Math.floor(diff / 60000)).padStart(2, '0');
     const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
-    el.textContent = `${m}:${s}`;
+    const text = `${m}:${s}`;
+    els.forEach(el => { if (el) el.textContent = text; });
     if (diff === 0) localStorage.removeItem(key);
   }
 
@@ -42,14 +43,16 @@ document.querySelectorAll('.faq-q').forEach(btn => {
   const nomes = [
     'Carlos S.', 'Matheus R.', 'Felipe A.', 'Bruno L.', 'Gabriel M.',
     'Rodrigo T.', 'Anderson P.', 'Thiago N.', 'Leonardo C.', 'Eduardo V.',
-    'Rafael B.', 'Gustavo F.', 'Diego H.', 'Vinicius O.', 'Lucas K.'
+    'Rafael B.', 'Gustavo F.', 'Diego H.', 'Vinicius O.', 'Lucas K.',
+    'Henrique M.', 'Pedro A.', 'João V.', 'Alexandre S.', 'Caio R.'
   ];
 
   const locais = [
     'São Paulo, SP', 'Rio de Janeiro, RJ', 'Belo Horizonte, MG', 'Curitiba, PR',
     'Salvador, BA', 'Fortaleza, CE', 'Manaus, AM', 'Recife, PE', 'Porto Alegre, RS',
     'Goiânia, GO', 'Belém, PA', 'Florianópolis, SC', 'Vitória, ES', 'Natal, RN',
-    'Campo Grande, MS', 'Maceió, AL', 'João Pessoa, PB', 'Teresina, PI'
+    'Campo Grande, MS', 'Maceió, AL', 'João Pessoa, PB', 'Teresina, PI',
+    'Campinas, SP', 'Santos, SP', 'Ribeirão Preto, SP', 'Uberlândia, MG'
   ];
 
   const toast = document.getElementById('toast');
@@ -65,11 +68,9 @@ document.querySelectorAll('.faq-q').forEach(btn => {
     toastLocation.textContent = `${local} · há ${mins} min`;
 
     toast.classList.add('show');
-
     setTimeout(() => toast.classList.remove('show'), 4000);
   }
 
-  // Primeira exibição após 5s, depois a cada 30s fixo
   setTimeout(function loop() {
     showToast();
     setTimeout(loop, 30000);
